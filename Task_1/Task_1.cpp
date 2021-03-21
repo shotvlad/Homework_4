@@ -3,29 +3,51 @@
 using namespace std;
 
 //ЧИСЛО СУДЬБЫ. Цифры полной даты рождения суммируются, пока не получится одна цифра. Разработайте функцию и вычислите свое число судьбы)
+#define MIN_YEAR 0
+#define MAX_YEAR 2021
+#define MIN_MONTH 1
+#define MAX_MONTH 12
 
 int enter(int number, string str);
-bool check(int y, int m, int d);
-int numberOfFate(int y, int m, int d);
+bool isCheckData(int number, int min, int max);
+bool isCheckDay(int d, int m, int y);
+int numberOfFate(int d, int m, int y);
 
 int main()
 {
     int year = 0, month = 0, day = 0;
 
-    cout << "Enter your birthday: " << endl;
-    year = enter(year, "Year");
-    month = enter(month, "Month");
-    day = enter(day, "Day");
+    cout << "Enter date of birth: " << endl;
 
-    if (check(year, month, day) != true)
+    year = enter(year, "Year");
+    if (isCheckData(year, MIN_YEAR, MAX_YEAR))
     {
-        cout << "\nThere is no such date." << endl;
+        cout << "There is no such date." << endl;
 
         return -1;
     }
     else {}
 
-    cout << "\nNumber of fate: " << numberOfFate(year, month, day) << endl;
+    month = enter(month, "Month");
+    if (isCheckData(month, MIN_MONTH, MAX_MONTH))
+    {
+        cout << "There is no such date." << endl;
+
+        return -1;
+    }
+    else{}
+
+    day = enter(day, "Day");
+    if (isCheckDay(day, month, year))
+    {
+        cout << "Number of fate: " << numberOfFate(day, month, year) << endl;
+    }
+    else 
+    {
+        cout << "There is no such date." << endl;
+
+        return -1;
+    }
 
     return 0;
 }
@@ -38,68 +60,34 @@ int enter(int number, string str)
     return number;
 }
 
-bool check(int y, int m, int d)
+bool isCheckData(int number, int min, int max)
 {
-    if (y < 0)
+    if (min == 1 and number == 0) {}
+    else if (number >= min and number <= max)
     {
         return false;
     }
-    else if (m < 1 or m > 12)
-    {
-        return false;
-    }
-    else if (m == 1 and (d < 1 or d > 31))
-    {
-        return false;
-    }
-    else if (m == 2 and (d < 1 or d > 28 + (((y % 4) == 0) && (((y % 100) != 0) || (y % 400)) ? 1 : 0)))
-    {
-        return false;
-    }
-    else if (m == 3 and (d < 1 or d > 31))
-    {
-        return false;
-    }
-    else if (m == 4 and (d < 1 or d > 30))
-    {
-        return false;
-    }
-    else if (m == 5 and (d < 1 or d > 31))
-    {
-        return false;
-    }
-    else if (m == 6 and (d < 1 or d > 30))
-    {
-        return false;
-    }
-    else if (m == 7 and (d < 1 or d > 31))
-    {
-        return false;
-    }
-    else if (m == 8 and (d < 1 or d > 31))
-    {
-        return false;
-    }
-    else if (m == 9 and (d < 1 or d > 30))
-    {
-        return false;
-    }
-    else if (m == 10 and (d < 1 or d > 31))
-    {
-        return false;
-    }
-    else if (m == 11 and (d < 1 or d > 30))
-    {
-        return false;
-    }
-    else if (m == 12 and (d < 1 or d > 31))
-    {
-        return false;
-    }
-    else return true;
+    else {}
 }
 
-int numberOfFate(int y, int m, int d)
+bool isCheckDay(int d, int m, int y)
+{
+    if (m == 2 and (d < 1 or d > 28 + (((y % 4) == 0) && (((y % 100) != 0) || (y % 400)) ? 1 : 0)))
+    {
+        return false;
+    }
+    else if ((m == 1, 3, 5, 7, 8, 10, 12) and (d < 1 or d > 31))
+    {
+        return false;
+    }
+    else if ((m == 4, 6, 9, 11) and (d < 1 or d > 30))
+    {
+        return false;
+    }
+    else {}
+}
+
+int numberOfFate(int d, int m, int y)
 {
     int number = 0, sum = 0;
 
