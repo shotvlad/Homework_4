@@ -7,11 +7,16 @@ using namespace std;
 #define MAX_YEAR 2021
 #define MIN_MONTH 1
 #define MAX_MONTH 12
+#define MIN_DAY 1
+#define MAX_DAY 31
 
 int enter(int number, string str);
 bool isCheckData(int number, int min, int max);
-bool isCheckDay(int d, int m, int y);
-int numberOfFate(int d, int m, int y);
+bool isCheckDay(int day, int month, int year);
+int checkDays(int month, int day, int leapYear);
+int checkMonth(int month);
+int leapYear(int year);
+int numberOfFate(int day, int month, int year);
 
 int main()
 {
@@ -35,14 +40,14 @@ int main()
 
         return -1;
     }
-    else{}
+    else {}
 
     day = enter(day, "Day");
     if (isCheckDay(day, month, year))
     {
         cout << "Number of fate: " << numberOfFate(day, month, year) << endl;
     }
-    else 
+    else
     {
         cout << "There is no such date." << endl;
 
@@ -62,36 +67,60 @@ int enter(int number, string str)
 
 bool isCheckData(int number, int min, int max)
 {
-    if (min == 1 and number == 0) {}
-    else if (number >= min and number <= max)
-    {
-        return false;
-    }
-    else {}
+    return number < min or number > max;
 }
 
-bool isCheckDay(int d, int m, int y)
+bool isCheckDay(int day, int month, int year)
 {
-    if (m == 2 and (d < 1 or d > 28 + (((y % 4) == 0) && (((y % 100) != 0) || (y % 400)) ? 1 : 0)))
-    {
-        return false;
-    }
-    else if ((m == 1, 3, 5, 7, 8, 10, 12) and (d < 1 or d > 31))
-    {
-        return false;
-    }
-    else if ((m == 4, 6, 9, 11) and (d < 1 or d > 30))
-    {
-        return false;
-    }
-    else {}
+    return checkDays(checkMonth(month), day, leapYear(year)) == -1;
 }
 
-int numberOfFate(int d, int m, int y)
+int checkDays(int monthDays, int day, int leapYear)
+{
+    if (monthDays == 0 and (day < MIN_DAY or day > MAX_DAY))
+    {
+        return 0;
+    }
+    else if  (monthDays == 1 and (day < MIN_DAY or day > MAX_DAY - 1))
+    {
+        return 0;
+    }
+    else if (monthDays == 2 and (day < MIN_DAY or day > MAX_DAY - 3 + leapYear))
+    {
+        return 0;
+    }
+    else return -1;
+}
+
+int checkMonth(int month)
+{
+    if (month == 2)
+    {
+        return 2;
+    }
+    else if (month == 4 or month == 6 or month == 9 or month == 11)
+    {
+        return 1;
+    }
+    else return 0;
+}
+
+int leapYear(int year)
+{
+    if ((year % 4 == 0) or ((year % 100 != 0) and (year % 400 == 0)))
+    {
+        return 1;
+    }
+    else return 0;
+}
+
+
+
+int numberOfFate(int day, int month, int year)
 {
     int number = 0, sum = 0;
 
-    number = d + m * 100 + y * 10000;
+    number = day + month * 100 + year * 10000;
 
     while (number > 0)
     {

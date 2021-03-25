@@ -38,13 +38,6 @@ int flip(int number)
 
         number /= 10;
     }
-
-    if (number > 0)
-    {
-        return flip;
-    }
-    else
-    {
-        return -flip;
-    }
+ 
+    return flip;
 }
